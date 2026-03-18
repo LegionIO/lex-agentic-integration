@@ -15,6 +15,8 @@ module Legion
               end
 
               def register_stream(stream_type:, content:, salience: DEFAULT_SALIENCE, domain: nil)
+                return nil unless STREAM_TYPES.include?(stream_type)
+
                 prune_streams_if_full
                 stream = Stream.new(
                   stream_type: stream_type,
@@ -27,6 +29,8 @@ module Legion
               end
 
               def create_binding(stream_ids:, binding_type:, attention_weight: 0.5)
+                return nil unless BINDING_TYPES.include?(binding_type)
+
                 prune_bindings_if_full
                 valid_ids   = stream_ids.select { |id| @streams.key?(id) }
                 coherence   = compute_initial_coherence(valid_ids)

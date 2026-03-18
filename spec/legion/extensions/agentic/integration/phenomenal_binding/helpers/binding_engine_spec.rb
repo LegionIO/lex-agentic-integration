@@ -38,6 +38,18 @@ RSpec.describe Legion::Extensions::Agentic::Integration::PhenomenalBinding::Help
       101.times { |i| engine.register_stream(stream_type: :perception, content: "s#{i}") }
       expect(engine.to_h[:stream_count]).to eq(100)
     end
+
+    it 'rejects invalid stream_type' do
+      expect(engine.register_stream(stream_type: :telepathy, content: 'x')).to be_nil
+    end
+
+    it 'accepts all valid STREAM_TYPES' do
+      constants = Legion::Extensions::Agentic::Integration::PhenomenalBinding::Helpers::Constants
+      constants::STREAM_TYPES.each do |stype|
+        result = engine.register_stream(stream_type: stype, content: "stream_#{stype}")
+        expect(result).not_to be_nil
+      end
+    end
   end
 
   describe '#create_binding' do
@@ -76,6 +88,20 @@ RSpec.describe Legion::Extensions::Agentic::Integration::PhenomenalBinding::Help
       s = engine.register_stream(stream_type: :perception, content: 'base')
       201.times { engine.create_binding(stream_ids: [s.id], binding_type: :perceptual) }
       expect(engine.to_h[:binding_count]).to eq(200)
+    end
+
+    it 'rejects invalid binding_type' do
+      s = engine.register_stream(stream_type: :perception, content: 'x')
+      expect(engine.create_binding(stream_ids: [s.id], binding_type: :psychic)).to be_nil
+    end
+
+    it 'accepts all valid BINDING_TYPES' do
+      constants = Legion::Extensions::Agentic::Integration::PhenomenalBinding::Helpers::Constants
+      s = engine.register_stream(stream_type: :perception, content: 'base')
+      constants::BINDING_TYPES.each do |btype|
+        result = engine.create_binding(stream_ids: [s.id], binding_type: btype)
+        expect(result).not_to be_nil
+      end
     end
   end
 

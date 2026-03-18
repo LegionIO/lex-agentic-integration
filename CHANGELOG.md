@@ -2,6 +2,12 @@
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-03-18
+
+### Changed
+- Enforce STREAM_TYPES validation in PhenomenalBinding::BindingEngine#register_stream (returns nil for invalid types)
+- Enforce BINDING_TYPES validation in PhenomenalBinding::BindingEngine#create_binding (returns nil for invalid types)
+
 ## [0.1.0] - 2026-03-18
 
 ### Added
