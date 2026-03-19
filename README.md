@@ -30,6 +30,12 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 | `Integration::SituationModel` | `lex-situation-model` | Zwaan/Radvansky situation model for text comprehension |
 | `Integration::Boundary` | `lex-cognitive-boundary` | Cognitive domain boundary management |
 
+## Actors
+
+- `Integration::GlobalWorkspace::Actors::Competition` — interval actor, runs workspace competition cycle
+- `Integration::Labyrinth::Actors::ThreadWalker` — interval actor, advances labyrinth thread walker
+- `Integration::Map::Actors::Decay` — interval actor, decays cognitive map node strength
+
 ## Installation
 
 ```ruby
