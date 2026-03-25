@@ -7,7 +7,7 @@
 Domain consolidation gem for global integration theories and cross-domain synthesis. Bundles 17 source extensions into one loadable unit under `Legion::Extensions::Agentic::Integration`.
 
 **Gem**: `lex-agentic-integration`
-**Version**: 0.1.1
+**Version**: 0.1.0
 **Namespace**: `Legion::Extensions::Agentic::Integration`
 
 ## Sub-Modules
@@ -46,6 +46,6 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 
 ```bash
 bundle install
-bundle exec rspec        # 1450 examples, 0 failures
+bundle exec rspec        # 1446 examples, 0 failures
 bundle exec rubocop      # 0 offenses
 ```
