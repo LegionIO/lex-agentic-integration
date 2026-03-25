@@ -30,7 +30,7 @@ module Legion
                 [(0.7...0.9),  :substantial],
                 [(0.5...0.7),  :emerging],
                 [(0.3...0.5),  :fragmentary],
-                [(..0.3),      :nascent]
+                [..0.3,        :nascent]
               ].freeze
 
               # Coherence labels
@@ -39,7 +39,7 @@ module Legion
                 [(0.6...0.8),  :coherent],
                 [(0.4...0.6),  :developing],
                 [(0.2...0.4),  :disjointed],
-                [(..0.2),      :chaotic]
+                [..0.2,        :chaotic]
               ].freeze
 
               def self.label_for(table, value)

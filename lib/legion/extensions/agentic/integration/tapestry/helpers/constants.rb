@@ -22,7 +22,7 @@ module Legion
                 [(0.5...0.7),  :woven],
                 [(0.3...0.5),  :fraying],
                 [(0.1...0.3),  :tattered],
-                [(..0.1),      :rags]
+                [..0.1,        :rags]
               ].freeze
 
               COMPLEXITY_LABELS = [
@@ -30,7 +30,7 @@ module Legion
                 [(0.65...0.85), :elaborate],
                 [(0.45...0.65), :patterned],
                 [(0.25...0.45), :plain_woven],
-                [(..0.25), :simple]
+                [..0.25,   :simple]
               ].freeze
 
               def self.label_for(table, value)
