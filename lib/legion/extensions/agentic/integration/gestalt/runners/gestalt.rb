@@ -15,13 +15,13 @@ module Legion
 
               def learn_pattern(name:, elements:, domain: :general, **)
                 pattern = store.add(name: name, elements: elements, domain: domain)
-                Legion::Logging.debug "[gestalt] learned pattern=#{name} domain=#{domain} size=#{elements.size}"
+                log.debug("[gestalt] learned pattern=#{name} domain=#{domain} size=#{elements.size}")
                 { success: true, pattern: pattern.to_h }
               end
 
               def complete_pattern(fragment:, domain: nil, **)
                 completions = store.complete(fragment, domain: domain)
-                Legion::Logging.debug "[gestalt] complete: #{completions.size} candidates for #{fragment.size} elements"
+                log.debug("[gestalt] complete: #{completions.size} candidates for #{fragment.size} elements")
                 {
                   success:     true,
                   completions: completions,
@@ -38,7 +38,7 @@ module Legion
                          end
                 return { success: false, reason: :not_found } unless result
 
-                Legion::Logging.debug "[gestalt] #{correct ? 'reinforced' : 'penalized'} pattern=#{pattern_id}"
+                log.debug("[gestalt] #{correct ? 'reinforced' : 'penalized'} pattern=#{pattern_id}")
                 { success: true, pattern: result.to_h }
               end
 
@@ -56,7 +56,7 @@ module Legion
 
               def update_gestalt(**)
                 store.decay_all
-                Legion::Logging.debug "[gestalt] tick: patterns=#{store.size}"
+                log.debug("[gestalt] tick: patterns=#{store.size}")
                 { success: true, pattern_count: store.size }
               end
 

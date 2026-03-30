@@ -8,6 +8,7 @@ module Legion
           module Helpers
             class SynthesisEngine
               include Constants
+              include Legion::Logging::Helper
 
               attr_reader :streams, :syntheses
 
@@ -29,8 +30,8 @@ module Legion
                 @streams[stream.id] = stream
                 prune_streams! if @streams.size > MAX_STREAMS
 
-                Legion::Logging.debug "[cognitive_synthesis] stream added id=#{stream.id[0..7]} " \
-                                      "type=#{stream_type} weight=#{weight.round(2)}"
+                log.debug("[cognitive_synthesis] stream added id=#{stream.id[0..7]} " \
+                          "type=#{stream_type} weight=#{weight.round(2)}")
 
                 { success: true, stream_id: stream.id, stream_type: stream_type }
               end
@@ -38,7 +39,7 @@ module Legion
               def remove_stream(stream_id:, **)
                 removed = @streams.delete(stream_id)
                 if removed
-                  Legion::Logging.debug "[cognitive_synthesis] stream removed id=#{stream_id[0..7]}"
+                  log.debug("[cognitive_synthesis] stream removed id=#{stream_id[0..7]}")
                   { success: true, stream_id: stream_id }
                 else
                   { success: false, error: :not_found }
@@ -49,7 +50,7 @@ module Legion
                 active = @streams.values.reject(&:stale?)
 
                 if active.size < MIN_STREAMS_FOR_SYNTHESIS
-                  Legion::Logging.debug "[cognitive_synthesis] synthesize! skipped: only #{active.size} active streams"
+                  log.debug("[cognitive_synthesis] synthesize! skipped: only #{active.size} active streams")
                   return { success: false, error: :insufficient_streams, active_count: active.size, required: MIN_STREAMS_FOR_SYNTHESIS }
                 end
 
@@ -69,9 +70,9 @@ module Legion
                 @syntheses << synthesis
                 @syntheses.shift while @syntheses.size > MAX_SYNTHESES
 
-                Legion::Logging.info "[cognitive_synthesis] synthesis id=#{synthesis.id[0..7]} " \
-                                     "coherence=#{coherence.round(2)} novelty=#{novelty.round(2)} " \
-                                     "streams=#{active.size} label=#{synthesis.coherence_label}"
+                log.info("[cognitive_synthesis] synthesis id=#{synthesis.id[0..7]} " \
+                         "coherence=#{coherence.round(2)} novelty=#{novelty.round(2)} " \
+                         "streams=#{active.size} label=#{synthesis.coherence_label}")
 
                 { success: true, synthesis: synthesis.to_h }
               end
@@ -82,7 +83,7 @@ module Legion
                 @streams.reject! { |_, s| s.stale? }
                 removed = before - @streams.size
 
-                Legion::Logging.debug "[cognitive_synthesis] decay_all! removed=#{removed} remaining=#{@streams.size}"
+                log.debug("[cognitive_synthesis] decay_all! removed=#{removed} remaining=#{@streams.size}")
                 { success: true, streams_removed: removed, streams_remaining: @streams.size }
               end
 
@@ -96,8 +97,8 @@ module Legion
                 content_conflict  = conflicting_content?(a, b)
                 conflict          = weight_opposition || content_conflict
 
-                Legion::Logging.debug "[cognitive_synthesis] conflict check #{stream_id_a[0..7]}<>#{stream_id_b[0..7]} " \
-                                      "result=#{conflict}"
+                log.debug("[cognitive_synthesis] conflict check #{stream_id_a[0..7]}<>#{stream_id_b[0..7]} " \
+                          "result=#{conflict}")
 
                 {
                   success:           true,
@@ -111,8 +112,8 @@ module Legion
                 return { success: false, error: :no_streams } if @streams.empty?
 
                 stream = @streams.values.max_by(&:effective_weight)
-                Legion::Logging.debug "[cognitive_synthesis] dominant stream id=#{stream.id[0..7]} " \
-                                      "effective_weight=#{stream.effective_weight.round(4)}"
+                log.debug("[cognitive_synthesis] dominant stream id=#{stream.id[0..7]} " \
+                          "effective_weight=#{stream.effective_weight.round(4)}")
                 { success: true, stream: stream.to_h }
               end
 
@@ -133,7 +134,7 @@ module Legion
                 {
                   stream_count:      @streams.size,
                   synthesis_count:   @syntheses.size,
-                  active_streams:    @streams.values.reject(&:stale?).size,
+                  active_streams:    @streams.values.count { |element| !element.stale? },
                   stale_streams:     @streams.values.count(&:stale?),
                   average_coherence: @syntheses.empty? ? 0.0 : (@syntheses.sum(&:coherence).round(10) / @syntheses.size).round(6)
                 }

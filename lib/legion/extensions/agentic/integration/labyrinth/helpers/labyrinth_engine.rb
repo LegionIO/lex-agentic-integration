@@ -7,6 +7,8 @@ module Legion
         module Labyrinth
           module Helpers
             class LabyrinthEngine
+              include Legion::Logging::Helper
+
               attr_reader :labyrinths
 
               def initialize
@@ -19,7 +21,7 @@ module Legion
                 id = labyrinth_id || SecureRandom.uuid
                 labyrinth = Labyrinth.new(labyrinth_id: id, name: name, domain: domain)
                 @labyrinths[id] = labyrinth
-                Legion::Logging.debug "[cognitive_labyrinth] created labyrinth id=#{id[0..7]} name=#{name}"
+                log.debug("[cognitive_labyrinth] created labyrinth id=#{id[0..7]} name=#{name}")
                 labyrinth
               end
 
@@ -30,7 +32,7 @@ module Legion
 
                 node = Node.new(node_id: id, node_type: node_type, content: content, danger_level: level)
                 labyrinth.add_node(node)
-                Legion::Logging.debug "[cognitive_labyrinth] added node #{id[0..7]} type=#{node_type} to labyrinth #{labyrinth_id[0..7]}"
+                log.debug("[cognitive_labyrinth] added node #{id[0..7]} type=#{node_type} to labyrinth #{labyrinth_id[0..7]}")
                 node
               end
 
@@ -49,7 +51,7 @@ module Legion
                 node      = labyrinth.move_to!(node_id)
 
                 minotaur_result = check_minotaur(labyrinth_id: labyrinth_id)
-                Legion::Logging.debug "[cognitive_labyrinth] moved to #{node_id[0..7]} type=#{node.node_type}"
+                log.debug("[cognitive_labyrinth] moved to #{node_id[0..7]} type=#{node.node_type}")
 
                 {
                   success:      true,
@@ -68,10 +70,10 @@ module Legion
                 node      = labyrinth.backtrack!
 
                 if node
-                  Legion::Logging.debug "[cognitive_labyrinth] backtracked to #{node.node_id[0..7]}"
+                  log.debug("[cognitive_labyrinth] backtracked to #{node.node_id[0..7]}")
                   { success: true, node_id: node.node_id, node_type: node.node_type, path_length: labyrinth.path_length }
                 else
-                  Legion::Logging.debug '[cognitive_labyrinth] backtrack failed: no breadcrumbs'
+                  log.debug('[cognitive_labyrinth] backtrack failed: no breadcrumbs')
                   { success: false, reason: :no_breadcrumbs }
                 end
               end
@@ -82,7 +84,7 @@ module Legion
 
                 if node
                   minotaur_result = check_minotaur(labyrinth_id: labyrinth_id)
-                  Legion::Logging.debug "[cognitive_labyrinth] thread followed to #{node.node_id[0..7]}"
+                  log.debug("[cognitive_labyrinth] thread followed to #{node.node_id[0..7]}")
                   {
                     success:      true,
                     node_id:      node.node_id,
@@ -93,7 +95,7 @@ module Legion
                     minotaur:     minotaur_result
                   }
                 else
-                  Legion::Logging.debug '[cognitive_labyrinth] thread exhausted: no unvisited nodes from current'
+                  log.debug('[cognitive_labyrinth] thread exhausted: no unvisited nodes from current')
                   { success: false, reason: :thread_exhausted }
                 end
               end
@@ -104,7 +106,7 @@ module Legion
                 return { encountered: false } unless node
 
                 if node.node_type == :minotaur_lair
-                  Legion::Logging.debug "[cognitive_labyrinth] MINOTAUR ENCOUNTERED at #{node.node_id[0..7]}"
+                  log.debug("[cognitive_labyrinth] MINOTAUR ENCOUNTERED at #{node.node_id[0..7]}")
                   {
                     encountered:   true,
                     node_id:       node.node_id,

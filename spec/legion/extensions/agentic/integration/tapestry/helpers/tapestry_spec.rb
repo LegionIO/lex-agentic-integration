@@ -147,7 +147,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Tape
     it 'returns true when threads taut and completeness high' do
       cap = 3
       tap = described_class.new(name: 'x', pattern: :brocade, capacity: cap)
-      threads = cap.times.map do
+      threads = Array.new(cap) do
         make_thread(strength: 0.95).tap { |t| tap.weave_thread(t.id) }
       end
       expect(tap.masterwork?(threads)).to be true
