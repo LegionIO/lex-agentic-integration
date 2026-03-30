@@ -15,10 +15,10 @@ module Legion
                 raise ArgumentError, 'name is required' if name.nil? || name.to_s.strip.empty?
 
                 result = resolve_engine(engine).create_labyrinth(name: name, domain: domain, labyrinth_id: labyrinth_id)
-                Legion::Logging.debug "[cognitive_labyrinth] runner: created labyrinth #{result.labyrinth_id[0..7]}"
+                log.debug("[cognitive_labyrinth] runner: created labyrinth #{result.labyrinth_id[0..7]}")
                 { success: true, labyrinth_id: result.labyrinth_id, name: result.name, domain: result.domain }
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] create_labyrinth error: #{e.message}"
+                log.debug("[cognitive_labyrinth] create_labyrinth error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -32,7 +32,7 @@ module Legion
                 )
                 { success: true, node_id: node.node_id, node_type: node.node_type }
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] add_node error: #{e.message}"
+                log.debug("[cognitive_labyrinth] add_node error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -43,7 +43,7 @@ module Legion
                   labyrinth_id: labyrinth_id, from_id: from_id, to_id: to_id, bidirectional: bidirectional
                 )
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] connect_nodes error: #{e.message}"
+                log.debug("[cognitive_labyrinth] connect_nodes error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -53,7 +53,7 @@ module Legion
 
                 resolve_engine(engine).move(labyrinth_id: labyrinth_id, node_id: node_id)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] move error: #{e.message}"
+                log.debug("[cognitive_labyrinth] move error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -62,7 +62,7 @@ module Legion
 
                 resolve_engine(engine).backtrack(labyrinth_id: labyrinth_id)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] backtrack error: #{e.message}"
+                log.debug("[cognitive_labyrinth] backtrack error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -71,7 +71,7 @@ module Legion
 
                 resolve_engine(engine).follow_thread(labyrinth_id: labyrinth_id)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] follow_thread error: #{e.message}"
+                log.debug("[cognitive_labyrinth] follow_thread error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -80,7 +80,7 @@ module Legion
 
                 resolve_engine(engine).check_minotaur(labyrinth_id: labyrinth_id)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] check_minotaur error: #{e.message}"
+                log.debug("[cognitive_labyrinth] check_minotaur error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -90,7 +90,7 @@ module Legion
                 result = resolve_engine(engine).labyrinth_report(labyrinth_id: labyrinth_id)
                 { success: true }.merge(result)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] labyrinth_report error: #{e.message}"
+                log.debug("[cognitive_labyrinth] labyrinth_report error: #{e.message}")
                 { success: false, error: e.message }
               end
 
@@ -106,7 +106,7 @@ module Legion
 
                 resolve_engine(engine).delete_labyrinth(labyrinth_id: labyrinth_id)
               rescue ArgumentError => e
-                Legion::Logging.debug "[cognitive_labyrinth] delete_labyrinth error: #{e.message}"
+                log.debug("[cognitive_labyrinth] delete_labyrinth error: #{e.message}")
                 { success: false, error: e.message }
               end
 

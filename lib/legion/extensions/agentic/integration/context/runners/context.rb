@@ -7,12 +7,12 @@ module Legion
         module Context
           module Runners
             module Context
-              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers) &&
-                                                          Legion::Extensions::Helpers.const_defined?(:Lex)
+              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                          Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
               def create_context(name:, domain: :general, cues: [], **)
                 frame = context_manager.create_frame(name: name, domain: domain, cues: cues)
-                Legion::Logging.debug "[context] created frame=#{name} domain=#{domain} cues=#{cues.size}"
+                log.debug("[context] created frame=#{name} domain=#{domain} cues=#{cues.size}")
                 { success: true, frame: frame.to_h }
               end
 
@@ -21,13 +21,13 @@ module Legion
                 return { success: false, reason: :not_found } unless result
 
                 frame = result[:frame]
-                Legion::Logging.debug "[context] activated frame=#{frame.name} cost=#{result[:switch_cost].round(3)}"
+                log.debug("[context] activated frame=#{frame.name} cost=#{result[:switch_cost].round(3)}")
                 { success: true, frame: frame.to_h, switch_cost: result[:switch_cost] }
               end
 
               def detect_context(input_cues:, **)
                 matches = context_manager.detect_context(input_cues)
-                Legion::Logging.debug "[context] detect: #{matches.size} candidates for #{input_cues.size} cues"
+                log.debug("[context] detect: #{matches.size} candidates for #{input_cues.size} cues")
                 {
                   success:    true,
                   candidates: matches.map { |m| { frame: m[:frame].to_h, relevance: m[:relevance] } },
@@ -41,7 +41,7 @@ module Legion
                 return { success: true, switched: false, reason: :no_better_match } unless result
 
                 frame = result[:frame]
-                Legion::Logging.debug "[context] auto-switched to frame=#{frame.name} cost=#{result[:switch_cost].round(3)}"
+                log.debug("[context] auto-switched to frame=#{frame.name} cost=#{result[:switch_cost].round(3)}")
                 { success: true, switched: true, frame: frame.to_h, switch_cost: result[:switch_cost] }
               end
 
@@ -54,7 +54,7 @@ module Legion
 
               def update_context(**)
                 context_manager.decay_all
-                Legion::Logging.debug "[context] tick: frames=#{context_manager.frames.size} active=#{context_manager.current_frame&.name}"
+                log.debug("[context] tick: frames=#{context_manager.frames.size} active=#{context_manager.current_frame&.name}")
                 { success: true, frame_count: context_manager.frames.size, active: context_manager.current_frame&.name }
               end
 

@@ -6,7 +6,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::PhenomenalBinding::Help
   let(:stream_mod) { Legion::Extensions::Agentic::Integration::PhenomenalBinding::Helpers::Stream }
 
   def register_n_streams(count, salience: 0.7)
-    count.times.map do |i|
+    Array.new(count) do |i|
       engine.register_stream(stream_type: :perception, content: "content #{i}", salience: salience)
     end
   end

@@ -49,7 +49,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Context::Helpers::Conte
 
     it 'caps the active stack at MAX_FRAME_STACK' do
       max = Legion::Extensions::Agentic::Integration::Context::Helpers::Constants::MAX_FRAME_STACK
-      frames = (max + 3).times.map { |i| manager.create_frame(name: :"f_#{i}") }
+      frames = Array.new(max + 3) { |i| manager.create_frame(name: :"f_#{i}") }
       frames.each { |f| manager.activate(f.id) }
       expect(manager.active_stack.size).to be <= max
     end
