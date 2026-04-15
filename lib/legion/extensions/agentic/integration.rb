@@ -28,6 +28,14 @@ module Legion
         def self.remote_invocable?
           false
         end
+
+        def self.mcp_tools?
+          false
+        end
+
+        def self.mcp_tools_deferred?
+          false
+        end
       end
     end
   end

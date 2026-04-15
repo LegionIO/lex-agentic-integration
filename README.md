@@ -5,7 +5,7 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 ## Overview
 
 **Gem**: `lex-agentic-integration`
-**Version**: 0.1.0
+**Version**: 0.1.5
 **Namespace**: `Legion::Extensions::Agentic::Integration`
 
 ## Sub-Modules
