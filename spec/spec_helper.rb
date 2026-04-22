@@ -35,6 +35,8 @@ module Legion
   end
 end
 
+$LOADED_FEATURES << 'legion/extensions/actors/every'
+
 require 'legion/extensions/agentic/integration'
 
 RSpec.configure do |config|

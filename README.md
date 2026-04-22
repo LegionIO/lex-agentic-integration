@@ -5,7 +5,7 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 ## Overview
 
 **Gem**: `lex-agentic-integration`
-**Version**: 0.1.5
+**Version**: 0.1.6
 **Namespace**: `Legion::Extensions::Agentic::Integration`
 
 ## Sub-Modules
@@ -32,9 +32,14 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 
 ## Actors
 
-- `Integration::GlobalWorkspace::Actors::Competition` — interval actor, runs workspace competition cycle
-- `Integration::Labyrinth::Actors::ThreadWalker` — interval actor, advances labyrinth thread walker
-- `Integration::Map::Actors::Decay` — interval actor, decays cognitive map node strength
+| Actor | Interval | What It Does |
+|-------|----------|--------------|
+| `GlobalWorkspace::Actors::Competition` | interval | Runs workspace competition cycle — selects winner for global broadcast |
+| `Integration::Actor::Decay` | Every 120s | Decays stale cross-domain integration representations |
+| `Labyrinth::Actors::ThreadWalker` | interval | Advances thread walker through labyrinth |
+| `Map::Actors::Decay` | interval | Decays cognitive map node strength |
+| `PhenomenalBinding::Actor::Decay` | Every 120s | Decays phenomenal binding units |
+| `Synthesis::Actor::Decay` | Every 300s | Decays inactive synthesis streams |
 
 ## Installation
 

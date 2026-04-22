@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6] - 2026-04-22
+### Fixed
+- ThreadWalker actor now calls `follow_thread` (navigation) instead of `list_labyrinths` (read-only query)
+- Added error logging to labyrinth runner rescue blocks
+### Added
+- 3 new decay actors: PhenomenalBinding::Decay (120s), CognitiveIntegration::Decay (120s), CognitiveSynthesis::Decay (300s)
+
 ## [0.1.5] - 2026-04-15
 ### Changed
 - Set `mcp_tools?` and `mcp_tools_deferred?` to `false` — internal cognitive pipeline extension, not an LLM-callable tool

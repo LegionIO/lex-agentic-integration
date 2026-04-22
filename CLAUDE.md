@@ -1,13 +1,13 @@
 # lex-agentic-integration
 
-**Parent**: `/Users/miverso2/rubymine/legion/extensions-agentic/CLAUDE.md`
+**Parent**: `../CLAUDE.md`
 
 ## What Is This Gem?
 
 Domain consolidation gem for global integration theories and cross-domain synthesis. Bundles 17 source extensions into one loadable unit under `Legion::Extensions::Agentic::Integration`.
 
 **Gem**: `lex-agentic-integration`
-**Version**: 0.1.0
+**Version**: 0.1.6
 **Namespace**: `Legion::Extensions::Agentic::Integration`
 
 ## Sub-Modules
@@ -34,13 +34,30 @@ Domain consolidation gem for global integration theories and cross-domain synthe
 
 ## Actors
 
-- `Integration::GlobalWorkspace::Actors::Competition` — interval actor, runs workspace competition cycle
-- `Integration::Labyrinth::Actors::ThreadWalker` — interval actor, advances labyrinth thread walker
-- `Integration::Map::Actors::Decay` — interval actor, decays cognitive map node strength
+| Actor | Interval | Target Method |
+|-------|----------|---------------|
+| `GlobalWorkspace::Actors::Competition` | interval | `run_competition` on `GlobalWorkspace::Runners::GlobalWorkspace` |
+| `Integration::Actor::Decay` | Every 120s | `decay` on `Integration::Runners::CognitiveIntegration` |
+| `Labyrinth::Actors::ThreadWalker` | interval | `walk_thread` on `Labyrinth::Runners::CognitiveLabyrinth` |
+| `Map::Actors::Decay` | interval | `decay_nodes` on `Map::Runners::CognitiveMap` |
+| `PhenomenalBinding::Actor::Decay` | Every 120s | `decay_all` on `PhenomenalBinding::Runners::PhenomenalBinding` |
+| `Synthesis::Actor::Decay` | Every 300s | `decay_streams` on `Synthesis::Runners::CognitiveSynthesis` |
 
-## Key Implementation Note
+## Key Implementation Notes
 
-`Integration::Tapestry::Helpers::LoomEngine` uses `Helpers::Thread` (not `Tapestry::Helpers::Thread`) to reference the `Thread` value-object class. This avoids constant lookup shadowing since `Tapestry` resolves to the `Helpers::Tapestry` class within the `Helpers` namespace.
+- `Integration::Tapestry::Helpers::LoomEngine` uses `Helpers::Thread` (not `Tapestry::Helpers::Thread`) to reference the `Thread` value-object class. This avoids constant lookup shadowing since `Tapestry` resolves to `Helpers::Tapestry` within the `Helpers` namespace.
+- `Labyrinth::Actors::ThreadWalker` was fixed in the audit remediation — it no longer calls a non-existent method and correctly delegates to `walk_thread`.
+
+## Dependencies
+
+**Runtime** (from gemspec):
+- `legion-cache` >= 1.3.11
+- `legion-crypt` >= 1.4.9
+- `legion-data` >= 1.4.17
+- `legion-json` >= 1.2.1
+- `legion-logging` >= 1.3.2
+- `legion-settings` >= 1.3.14
+- `legion-transport` >= 1.3.9
 
 ## Development
 
