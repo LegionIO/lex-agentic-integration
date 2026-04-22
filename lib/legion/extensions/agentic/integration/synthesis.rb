@@ -6,6 +6,7 @@ require 'legion/extensions/agentic/integration/synthesis/helpers/synthesis_strea
 require 'legion/extensions/agentic/integration/synthesis/helpers/synthesis'
 require 'legion/extensions/agentic/integration/synthesis/helpers/synthesis_engine'
 require 'legion/extensions/agentic/integration/synthesis/runners/cognitive_synthesis'
+require 'legion/extensions/agentic/integration/synthesis/actors/decay'
 require 'legion/extensions/agentic/integration/synthesis/client'
 
 module Legion

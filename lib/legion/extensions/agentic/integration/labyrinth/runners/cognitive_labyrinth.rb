@@ -98,6 +98,7 @@ module Legion
                 result = resolve_engine(engine).list_labyrinths
                 { success: true, labyrinths: result, count: result.size }
               rescue ArgumentError => e
+                log.error("[cognitive_labyrinth] list_labyrinths error: #{e.message}")
                 { success: false, error: e.message }
               end
 

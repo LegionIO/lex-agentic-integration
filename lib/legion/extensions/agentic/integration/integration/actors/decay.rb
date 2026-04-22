@@ -6,19 +6,19 @@ module Legion
   module Extensions
     module Agentic
       module Integration
-        module Labyrinth
+        module Integration
           module Actor
-            class ThreadWalker < Legion::Extensions::Actors::Every
+            class Decay < Legion::Extensions::Actors::Every
               def runner_class
-                Legion::Extensions::Agentic::Integration::Labyrinth::Runners::CognitiveLabyrinth
+                Legion::Extensions::Agentic::Integration::Integration::Runners::CognitiveIntegration
               end
 
               def runner_function
-                'follow_thread'
+                'decay'
               end
 
               def time
-                600
+                120
               end
 
               def run_now?

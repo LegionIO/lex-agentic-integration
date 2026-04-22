@@ -8,6 +8,7 @@ require_relative 'labyrinth/helpers/node'
 require_relative 'labyrinth/helpers/labyrinth'
 require_relative 'labyrinth/helpers/labyrinth_engine'
 require_relative 'labyrinth/runners/cognitive_labyrinth'
+require_relative 'labyrinth/actors/thread_walker'
 require_relative 'labyrinth/client'
 
 module Legion
