@@ -4,7 +4,7 @@ require 'securerandom'
 
 require_relative 'tapestry/version'
 require_relative 'tapestry/helpers/constants'
-require_relative 'tapestry/helpers/thread'
+require_relative 'tapestry/helpers/thread_strand'
 require_relative 'tapestry/helpers/tapestry'
 require_relative 'tapestry/helpers/loom_engine'
 require_relative 'tapestry/runners/cognitive_tapestry'

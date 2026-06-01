@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Thread do
+RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::ThreadStrand do
   subject(:thread) do
     described_class.new(thread_type: :experience, domain: :reasoning, content: 'a past event')
   end

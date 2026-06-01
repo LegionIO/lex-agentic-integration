@@ -7,16 +7,18 @@ module Legion
         module Tapestry
           module Helpers
             class Tapestry
-              attr_reader :id, :name, :pattern, :capacity, :thread_ids, :created_at
+              attr_reader :id, :name, :pattern, :capacity, :thread_ids, :created_at,
+                          :decay_factor
 
               def initialize(name:, pattern:, capacity: 50)
                 validate_pattern!(pattern)
-                @id         = SecureRandom.uuid
-                @name       = name.to_s
-                @pattern    = pattern.to_sym
-                @capacity   = capacity.to_i.clamp(1, 500)
-                @thread_ids = []
-                @created_at = Time.now.utc
+                @id           = SecureRandom.uuid
+                @name         = name.to_s
+                @pattern      = pattern.to_sym
+                @capacity     = capacity.to_i.clamp(1, 500)
+                @thread_ids   = []
+                @created_at   = Time.now.utc
+                @decay_factor = 0.0
               end
 
               def weave_thread(thread_id)
@@ -50,10 +52,12 @@ module Legion
               end
 
               def age!(fray_rate: Constants::FRAY_RATE)
+                @decay_factor = (@decay_factor + fray_rate.abs).clamp(0.0, 1.0).round(10)
                 fray_rate
               end
 
               def repair!(boost: 0.1)
+                @decay_factor = (@decay_factor - boost.abs).clamp(0.0, 1.0).round(10)
                 boost
               end
 
@@ -110,6 +114,7 @@ module Legion
                   empty:              empty?,
                   fraying:            fraying?(threads),
                   masterwork:         masterwork?(threads),
+                  decay_factor:       decay_factor,
                   thread_ids:         @thread_ids.dup,
                   created_at:         @created_at
                 }

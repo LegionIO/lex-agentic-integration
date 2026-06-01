@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.7] - 2026-06-01
+### Fixed
+- Nil dereference in `PhenomenalBinding::Runners::PhenomenalBinding#register_stream` — guard against `nil` return from `engine.register_stream` when stream_type is invalid; returns `{ status: :rejected, reason: :unknown_stream_type }` instead of crashing on `.salience`
+- `Tapestry::Helpers::Tapestry#age!` and `#repair!` were no-op stubs that accepted params but did nothing — now `age!` frays thread strength via a `@decay_factor` (returned as a float) and `repair!` boosts it; `to_h` includes `decay_factor`
+- `Tapestry::Helpers::Thread` class renamed to `ThreadStrand` to avoid shadowing Ruby's built-in `Thread` constant; all internal references updated
+- Removed `extend self` from `Tapestry::Runners::CognitiveTapestry`, `Labyrinth::Runners::CognitiveLabyrinth`, `Mosaic::Runners::CognitiveMosaic`, and `Mycelium::Runners::CognitiveMycelium` — standardized to instance-module pattern (`include Lex` + private `engine`/`resolve_engine`) matching all other sub-module runners
+- Standardized `include Legion::Extensions::Helpers::Lex` guard to use `const_defined?` double-check (matches project-wide pattern) in mosaic and mycelium runners
+- Updated corresponding runner specs to use `runner_host = Object.new.tap { |o| o.extend(described_class) }` pattern instead of module-level calls
+
 ## [0.1.6] - 2026-04-22
 ### Fixed
 - ThreadWalker actor now calls `follow_thread` (navigation) instead of `list_labyrinths` (read-only query)

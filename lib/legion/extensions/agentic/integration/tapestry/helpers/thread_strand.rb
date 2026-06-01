@@ -6,7 +6,7 @@ module Legion
       module Integration
         module Tapestry
           module Helpers
-            class Thread
+            class ThreadStrand
               attr_reader :id, :thread_type, :domain, :content,
                           :color, :created_at, :tapestry_id
               attr_accessor :strength

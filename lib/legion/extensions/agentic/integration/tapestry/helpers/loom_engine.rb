@@ -16,7 +16,7 @@ module Legion
                               strength: nil, color: nil)
                 raise ArgumentError, 'thread limit reached' if @threads.size >= Constants::MAX_THREADS
 
-                t = Helpers::Thread.new(
+                t = Helpers::ThreadStrand.new(
                   thread_type: thread_type,
                   domain:      domain,
                   content:     content,
