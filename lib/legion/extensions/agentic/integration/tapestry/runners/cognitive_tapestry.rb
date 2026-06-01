@@ -7,9 +7,8 @@ module Legion
         module Tapestry
           module Runners
             module CognitiveTapestry
-              extend self
-
-              include Legion::Extensions::Helpers::Lex if defined?(Legion::Extensions::Helpers::Lex)
+              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                          Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
               def spin_thread(thread_type:, domain:, content:,
                               strength: nil, color: nil, engine: nil, **)
@@ -21,6 +20,7 @@ module Legion
                   strength:    strength,
                   color:       color
                 )
+                log.debug("[cognitive_tapestry] spin_thread: type=#{thread_type} domain=#{domain}")
                 { success: true, thread: t.to_h }
               rescue ArgumentError => e
                 { success: false, error: e.message }
@@ -30,6 +30,7 @@ module Legion
                 eng = resolve_engine(engine)
                 tap = eng.create_tapestry(name: name, pattern: pattern, capacity: capacity)
                 threads_arr = eng.all_threads
+                log.debug("[cognitive_tapestry] create_tapestry: name=#{name} pattern=#{pattern}")
                 { success: true, tapestry: tap.to_h(threads_arr) }
               rescue ArgumentError => e
                 { success: false, error: e.message }
@@ -37,8 +38,9 @@ module Legion
 
               def weave(thread_id:, tapestry_id:, engine: nil, **)
                 eng = resolve_engine(engine)
-                t   = eng.weave(thread_id: thread_id, tapestry_id: tapestry_id)
-                { success: true, thread: t.to_h }
+                eng.weave(thread_id: thread_id, tapestry_id: tapestry_id)
+                log.debug("[cognitive_tapestry] weave: thread_id=#{thread_id[0..7]} tapestry_id=#{tapestry_id[0..7]}")
+                { success: true }
               rescue ArgumentError => e
                 { success: false, error: e.message }
               end
@@ -51,6 +53,7 @@ module Legion
                 results = results.select { |tap| tap.pattern == pattern.to_sym } if pattern
                 results = results.select { |tap| tap.fraying?(threads_arr) }     if fraying_only
 
+                log.debug("[cognitive_tapestry] list_tapestries: count=#{results.size}")
                 {
                   success:    true,
                   tapestries: results.map { |tap| tap.to_h(threads_arr) },
@@ -60,6 +63,7 @@ module Legion
 
               def loom_status(engine: nil, **)
                 eng = resolve_engine(engine)
+                log.debug('[cognitive_tapestry] loom_status')
                 { success: true, report: eng.tapestry_report }
               end
 

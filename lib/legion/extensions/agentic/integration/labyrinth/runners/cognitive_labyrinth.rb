@@ -7,9 +7,8 @@ module Legion
         module Labyrinth
           module Runners
             module CognitiveLabyrinth
-              extend self
-
-              include Legion::Extensions::Helpers::Lex if defined?(Legion::Extensions::Helpers::Lex)
+              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                          Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
               def create_labyrinth(name:, domain: nil, labyrinth_id: nil, engine: nil, **)
                 raise ArgumentError, 'name is required' if name.nil? || name.to_s.strip.empty?

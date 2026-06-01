@@ -13,7 +13,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Loom
 
   describe '#spin_thread' do
     it 'returns a Thread instance' do
-      expect(spin).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Thread)
+      expect(spin).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::ThreadStrand)
     end
 
     it 'stores the thread internally' do
@@ -63,7 +63,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Loom
 
     it 'returns the Thread' do
       result = engine.weave(thread_id: t.id, tapestry_id: tap.id)
-      expect(result).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Thread)
+      expect(result).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::ThreadStrand)
     end
 
     it 'marks the thread as woven' do
@@ -111,7 +111,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Loom
 
     it 'returns the Thread' do
       result = engine.unravel(thread_id: t.id, tapestry_id: tap.id)
-      expect(result).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Thread)
+      expect(result).to be_a(Legion::Extensions::Agentic::Integration::Tapestry::Helpers::ThreadStrand)
     end
 
     it 'marks thread as loose' do

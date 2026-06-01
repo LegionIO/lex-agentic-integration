@@ -5,7 +5,7 @@ RSpec.describe Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Tape
     described_class.new(name: 'life story', pattern: :brocade, capacity: 10)
   end
 
-  let(:thread_klass) { Legion::Extensions::Agentic::Integration::Tapestry::Helpers::Thread }
+  let(:thread_klass) { Legion::Extensions::Agentic::Integration::Tapestry::Helpers::ThreadStrand }
 
   def make_thread(type: :experience, strength: 0.5)
     thread_klass.new(thread_type: type, domain: :reasoning, content: 'event', strength: strength)

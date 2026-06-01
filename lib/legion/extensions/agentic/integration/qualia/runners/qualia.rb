@@ -7,7 +7,8 @@ module Legion
         module Qualia
           module Runners
             module Qualia
-              include Legion::Extensions::Helpers::Lex if defined?(Legion::Extensions::Helpers::Lex)
+              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                          Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
               def create_quale(content:, modality: :abstract, quality: :smooth, texture: :fluid, vividness: nil,
                                valence: nil, engine: nil, **)

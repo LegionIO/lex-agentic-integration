@@ -18,9 +18,15 @@ module Legion
                   salience:    salience,
                   domain:      domain
                 )
-                log.debug("[phenomenal_binding] register_stream: type=#{stream_type} " \
-                          "salience=#{stream.salience.round(2)} domain=#{domain}")
-                { status: :registered, stream: stream.to_h }
+                if stream.nil?
+                  log.debug("[phenomenal_binding] register_stream rejected: type=#{stream_type.inspect} " \
+                            '(unknown stream_type)')
+                  { status: :rejected, reason: :unknown_stream_type, stream_type: stream_type }
+                else
+                  log.debug("[phenomenal_binding] register_stream: type=#{stream_type} " \
+                            "salience=#{stream.salience.round(2)} domain=#{domain}")
+                  { status: :registered, stream: stream.to_h }
+                end
               end
 
               def create_binding(stream_ids:, binding_type:, attention_weight: 0.5, **)

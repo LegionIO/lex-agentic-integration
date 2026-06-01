@@ -7,7 +7,8 @@ module Legion
         module Tessellation
           module Runners
             module CognitiveTessellation
-              include Legion::Extensions::Helpers::Lex if defined?(Legion::Extensions::Helpers::Lex)
+              include Legion::Extensions::Helpers::Lex if Legion::Extensions.const_defined?(:Helpers, false) &&
+                                                          Legion::Extensions::Helpers.const_defined?(:Lex, false)
 
               def create_tile(tile_type:, shape:, domain:, coverage: nil, fit_score: nil, engine: nil, **)
                 eng = engine || @default_engine
